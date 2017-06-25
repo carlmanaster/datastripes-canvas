@@ -18,20 +18,26 @@ const props = {
   width: 100
 }
 
-ctx = makeTestCtx(root, 'numeric chart - positive')
+const NUMERIC = document.createElement('h1')
+root.appendChild(NUMERIC)
+NUMERIC.innerText = 'Numeric Charts'
+
+ctx = makeTestCtx(root, 'positive')
 chart(props, testData.nonnegative, ctx)
 
-ctx = makeTestCtx(root, 'numeric chart - high positive')
+ctx = makeTestCtx(root, 'high positive')
 chart(props, testData.highpositive, ctx)
 
-ctx = makeTestCtx(root, 'numeric chart - mixed')
+ctx = makeTestCtx(root, 'mixed')
 chart(props, testData.mixed, ctx)
 
-ctx = makeTestCtx(root, 'numeric chart - sorted')
+ctx = makeTestCtx(root, 'sorted')
 chart(props, testData.sorted, ctx)
 
-ctx = makeTestCtx(root, 'numeric chart - negative')
+ctx = makeTestCtx(root, 'negative')
 chart(props, testData.nonpositive, ctx)
 
-ctx = makeTestCtx(root, 'numeric chart - high negative')
+ctx = makeTestCtx(root, 'high negative')
 chart(props, testData.highnegative, ctx)
+
+root.appendChild(document.createElement('hr'))
