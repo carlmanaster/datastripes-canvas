@@ -20,7 +20,7 @@ const numericChart = (props, values, ctx) => {
   const scalePositive = v => v * width / max
   const scaleHighPositive = v => (v - min) * (width - EDGE) / extent + EDGE
   const scaleNegative = v => (v - min) * width / extent
-  const scaleHighNegative = v => (v - min) * (width + EDGE) / extent - EDGE
+  const scaleHighNegative = v => (v - min) * (width - EDGE) / extent
   const scaleMixed = v => (v - min) * width / extent
 
   const allPositive = min >= 0
@@ -36,17 +36,7 @@ const numericChart = (props, values, ctx) => {
   }
   const scale = scaleFor(min, max)
 
-  const leftEdgeFor = y => {
-    if (!isFarFromZero) return 0
-    if (allNegative) return 0
-    return y % 4 * EDGE / 8 + EDGE / 2
-  }
-
-  const rightEdgeFor = y => {
-    if (!isFarFromZero) return 0
-    if (allPositive) return 0
-    return y % 4 * EDGE / 8 + EDGE / 2
-  }
+  const jag = y => y % 4 * EDGE / 8 + EDGE / 2
 
   const originFor = () => {
     if (!isFarFromZero) return 0
@@ -63,10 +53,17 @@ const numericChart = (props, values, ctx) => {
     line(color, 0, width, y, ctx)
   }
 
+  const startFor = () => {
+    if (!isFarFromZero && !allNegative) return scale(origin)
+    if (!isFarFromZero && allNegative) return width
+    if (!allNegative) return scale(origin) - jag(y)
+    return scale(origin) + jag(y)
+  }
+
   const drawValue = v => {
     if (v === null) return
     const color = colorFor(v)
-    const xStart = scale(origin) - leftEdgeFor(y) + rightEdgeFor(y)
+    const xStart = startFor()
     const xEnd = scale(v)
     line(color, xStart, xEnd, y, ctx)
   }
