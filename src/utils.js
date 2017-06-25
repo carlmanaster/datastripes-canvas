@@ -13,3 +13,11 @@ const N = {
   min: A => R.reduce(R.min, Infinity, U.nonNull(A)),
   numericalOrder: (a, b) => a - b
 }
+
+const G = {
+  line: (color, xStart, xEnd, y, ctx) => {
+    const width = xEnd - xStart
+    ctx.fillStyle = color
+    ctx.fillRect(xStart, y, width, 1)
+  }
+}

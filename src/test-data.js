@@ -1,5 +1,5 @@
 const makeTestData = () => {
-  const values = [
+  const numericValues = [
     0,
     -1,
     2,
@@ -49,20 +49,26 @@ const makeTestData = () => {
     -20
   ]
 
+  const boolean = R.pipe(
+    R.split(''),
+    R.map(c => (c === 'n' ? null : c === 't'))
+  )('ttttfftftftftffnnftftftnfttftffftnnntttttf')
+
   const wrap = f => v => (v === null ? null : f(v))
 
-  const nonnegative = R.map(wrap(Math.abs), values)
+  const nonnegative = R.map(wrap(Math.abs), numericValues)
   const nonpositive = R.map(wrap(n => -n), nonnegative)
   const highpositive = R.map(wrap(n => n + 50), nonnegative)
   const highnegative = R.map(wrap(n => n - 50), nonpositive)
-  const sorted = R.sortWith([U.nullsUp, N.numericalOrder], values)
+  const sorted = R.sortWith([U.nullsUp, N.numericalOrder], numericValues)
   return {
-    mixed: values,
+    mixed: numericValues,
     sorted,
     nonnegative,
     nonpositive,
     highpositive,
-    highnegative
+    highnegative,
+    boolean
   }
 }
 

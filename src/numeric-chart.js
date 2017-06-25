@@ -1,9 +1,3 @@
-const line = (color, xStart, xEnd, y, ctx) => {
-  const width = xEnd - xStart
-  ctx.fillStyle = color
-  ctx.fillRect(xStart, y, width, 1)
-}
-
 const colorFor = v =>
   v >= 0 ? COLOR_BAR_NUMERIC_POSITIVE : COLOR_BAR_NUMERIC_NEGATIVE
 
@@ -50,7 +44,7 @@ const numericChart = (props, values, ctx) => {
 
   const drawBackground = v => {
     const color = backgroundColorFor(v)
-    line(color, 0, width, y, ctx)
+    G.line(color, 0, width, y, ctx)
   }
 
   const startFor = () => {
@@ -65,7 +59,7 @@ const numericChart = (props, values, ctx) => {
     const color = colorFor(v)
     const xStart = startFor()
     const xEnd = scale(v)
-    line(color, xStart, xEnd, y, ctx)
+    G.line(color, xStart, xEnd, y, ctx)
   }
 
   const drawRow = v => {

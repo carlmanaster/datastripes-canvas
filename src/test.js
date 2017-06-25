@@ -48,4 +48,22 @@ const makeNumericSection = () => {
   root.appendChild(document.createElement('hr'))
 }
 
+const makeBooleanSection = () => {
+  const props = {
+    type: 'boolean',
+    width: 100
+  }
+  let ctx
+
+  const h1 = document.createElement('h1')
+  root.appendChild(h1)
+  h1.innerText = 'Boolean Charts'
+
+  ctx = makeTestCtx(root, 'boolean')
+  chart(props, testData.boolean, ctx)
+
+  root.appendChild(document.createElement('hr'))
+}
+
+makeBooleanSection()
 makeNumericSection()
