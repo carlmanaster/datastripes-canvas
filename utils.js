@@ -4,11 +4,12 @@ const U = {
     if (a === null) return -1
     if (b === null) return 1
     return 0
-  }
+  },
+  nonNull: A => R.filter(n => n !== null, A)
 }
 
 const N = {
-  max: A => R.reduce(R.max, -Infinity, A),
-  min: A => R.reduce(R.min, Infinity, A),
+  max: A => R.reduce(R.max, -Infinity, U.nonNull(A)),
+  min: A => R.reduce(R.min, Infinity, U.nonNull(A)),
   numericalOrder: (a, b) => a - b
 }

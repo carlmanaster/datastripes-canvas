@@ -60,12 +60,11 @@ const numericChart = (props, values, ctx) => {
 
   const drawBackground = v => {
     const color = backgroundColorFor(v)
-    const xStart = 0
-    const xEnd = width
-    line(color, xStart, xEnd, y, ctx)
+    line(color, 0, width, y, ctx)
   }
 
   const drawValue = v => {
+    if (v === null) return
     const color = colorFor(v)
     const xStart = scale(origin) - leftEdgeFor(y) + rightEdgeFor(y)
     const xEnd = scale(v)
