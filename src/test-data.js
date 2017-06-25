@@ -54,6 +54,8 @@ const makeTestData = () => {
     R.map(c => (c === 'n' ? null : c === 't'))
   )('ttttfftftftftffnnftftftnfttftffftnnntttttf')
 
+  const sortedBoolean = R.sortWith([U.nullsUp, U.trueUp], boolean)
+
   const wrap = f => v => (v === null ? null : f(v))
 
   const nonnegative = R.map(wrap(Math.abs), numericValues)
@@ -68,7 +70,8 @@ const makeTestData = () => {
     nonpositive,
     highpositive,
     highnegative,
-    boolean
+    boolean,
+    sortedBoolean
   }
 }
 

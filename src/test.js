@@ -62,6 +62,9 @@ const makeBooleanSection = () => {
   ctx = makeTestCtx(root, 'boolean')
   chart(props, testData.boolean, ctx)
 
+  ctx = makeTestCtx(root, 'sorted')
+  chart(props, testData.sortedBoolean, ctx)
+
   root.appendChild(document.createElement('hr'))
 }
 

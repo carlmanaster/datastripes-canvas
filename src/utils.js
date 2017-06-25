@@ -5,6 +5,10 @@ const U = {
     if (b === null) return 1
     return 0
   },
+  trueUp: (a, b) => {
+    if (a === b) return 0
+    return a ? -1 : 1
+  },
   nonNull: A => R.filter(n => n !== null, A)
 }
 
