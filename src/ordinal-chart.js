@@ -1,7 +1,6 @@
 const ordinalChart = (props, values, ctx) => {
   const { width, keys } = props
   const barWidth = width / keys.length - 1
-  console.log(values)
 
   const startFor = b => keys.indexOf(b) * (barWidth + 1)
 
