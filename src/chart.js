@@ -1,6 +1,7 @@
 const fns = {
   numeric: numericChart,
-  boolean: booleanChart
+  boolean: booleanChart,
+  ordinal: ordinalChart
 }
 
 const chart = (props, values, ctx) => {

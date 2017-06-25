@@ -68,5 +68,27 @@ const makeBooleanSection = () => {
   root.appendChild(document.createElement('hr'))
 }
 
+const makeOrdinalSection = () => {
+  const props = {
+    type: 'ordinal',
+    width: 100,
+    keys: R.split('', 'abcde')
+  }
+  let ctx
+
+  const h1 = document.createElement('h1')
+  root.appendChild(h1)
+  h1.innerText = 'Ordinal Charts'
+
+  ctx = makeTestCtx(root, 'ordinal')
+  chart(props, testData.ordinal, ctx)
+
+  ctx = makeTestCtx(root, 'sorted')
+  chart(props, testData.sortedOrdinal, ctx)
+
+  root.appendChild(document.createElement('hr'))
+}
+
+makeOrdinalSection()
 makeBooleanSection()
 makeNumericSection()

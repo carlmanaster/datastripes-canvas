@@ -1,4 +1,5 @@
 const makeTestData = () => {
+  const wrap = f => v => (v === null ? null : f(v))
   const numericValues = [
     0,
     -1,
@@ -53,10 +54,12 @@ const makeTestData = () => {
     R.split(''),
     R.map(c => (c === 'n' ? null : c === 't'))
   )('ttttfftftftftffnnftftftnfttftffftnnntttttf')
-
   const sortedBoolean = R.sortWith([U.nullsUp, U.trueUp], boolean)
 
-  const wrap = f => v => (v === null ? null : f(v))
+  const ordinal = R.pipe(R.split(''), R.map(c => (c === 'n' ? null : c)))(
+    'dnenddabnbababnnccacbacbbabcb'
+  )
+  const sortedOrdinal = R.sortWith([U.nullsUp, U.compare], ordinal)
 
   const nonnegative = R.map(wrap(Math.abs), numericValues)
   const nonpositive = R.map(wrap(n => -n), nonnegative)
@@ -71,7 +74,9 @@ const makeTestData = () => {
     highpositive,
     highnegative,
     boolean,
-    sortedBoolean
+    sortedBoolean,
+    ordinal,
+    sortedOrdinal
   }
 }
 
