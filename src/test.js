@@ -1,4 +1,4 @@
-const makeTestCtx = (root, text) => {
+const makeTestCanvas = (root, text) => {
   const label = document.createElement('div')
   root.appendChild(label)
   label.innerText = text
@@ -7,7 +7,7 @@ const makeTestCtx = (root, text) => {
   root.appendChild(canvas)
   const ctx = canvas.getContext('2d')
   setSize({ width: 400, height: 60 }, ctx)
-  return ctx
+  return { ctx, canvas }
 }
 
 const root = document.getElementById('root')
@@ -23,25 +23,25 @@ const makeNumericSection = () => {
   root.appendChild(h1)
   h1.innerText = 'Numeric Charts'
 
-  ctx = makeTestCtx(root, 'positive')
+  ctx = makeTestCanvas(root, 'positive').ctx
   chart(props, testData.nonnegative, ctx)
 
-  ctx = makeTestCtx(root, 'high positive')
+  ctx = makeTestCanvas(root, 'high positive').ctx
   chart(props, testData.highpositive, ctx)
 
-  ctx = makeTestCtx(root, 'mixed')
+  ctx = makeTestCanvas(root, 'mixed').ctx
   chart(props, testData.mixed, ctx)
 
-  ctx = makeTestCtx(root, 'sorted')
+  ctx = makeTestCanvas(root, 'sorted').ctx
   chart(props, testData.sorted, ctx)
 
-  ctx = makeTestCtx(root, 'negative')
+  ctx = makeTestCanvas(root, 'negative').ctx
   chart(props, testData.nonpositive, ctx)
 
-  ctx = makeTestCtx(root, 'high negative')
+  ctx = makeTestCanvas(root, 'high negative').ctx
   chart(props, testData.highnegative, ctx)
 
-  ctx = makeTestCtx(root, 'offset')
+  ctx = makeTestCanvas(root, 'offset').ctx
   ctx.translate(100, 0)
   chart(props, testData.sorted, ctx)
 
@@ -59,10 +59,10 @@ const makeBooleanSection = () => {
   root.appendChild(h1)
   h1.innerText = 'Boolean Charts'
 
-  ctx = makeTestCtx(root, 'boolean')
+  ctx = makeTestCanvas(root, 'boolean').ctx
   chart(props, testData.boolean, ctx)
 
-  ctx = makeTestCtx(root, 'sorted')
+  ctx = makeTestCanvas(root, 'sorted').ctx
   chart(props, testData.sortedBoolean, ctx)
 
   root.appendChild(document.createElement('hr'))
@@ -80,10 +80,10 @@ const makeOrdinalSection = () => {
   root.appendChild(h1)
   h1.innerText = 'Ordinal Charts'
 
-  ctx = makeTestCtx(root, 'ordinal')
+  ctx = makeTestCanvas(root, 'ordinal').ctx
   chart(props, testData.ordinal, ctx)
 
-  ctx = makeTestCtx(root, 'sorted')
+  ctx = makeTestCanvas(root, 'sorted').ctx
   chart(props, testData.sortedOrdinal, ctx)
 
   root.appendChild(document.createElement('hr'))
@@ -91,6 +91,7 @@ const makeOrdinalSection = () => {
 
 const makeMultipleSection = () => {
   const width = 40
+  const spacing = width + 3
   const numericProps = {
     type: 'numeric',
     width
@@ -104,31 +105,67 @@ const makeMultipleSection = () => {
     type: 'boolean',
     width
   }
-  let ctx
 
   const h1 = document.createElement('h1')
   root.appendChild(h1)
   h1.innerText = 'Multiple Charts'
 
-  ctx = makeTestCtx(root, 'multiple')
+  const { canvas, ctx } = makeTestCanvas(root, 'multiple')
+
+  canvas.style.cursor = 'crosshair'
 
   const offsetChart = (index, props, values, ctx) => {
-    const dx = index * (width + 3)
+    const dx = index * spacing
     ctx.save()
     ctx.translate(dx, 0)
     chart(props, values, ctx)
     ctx.restore()
   }
 
-  let index = 0
-  offsetChart(index++, ordinalProps, testData.ordinal, ctx)
-  offsetChart(index++, ordinalProps, testData.sortedOrdinal, ctx)
-  offsetChart(index++, booleanProps, testData.boolean, ctx)
-  offsetChart(index++, numericProps, testData.mixed, ctx)
-  offsetChart(index++, numericProps, testData.highnegative, ctx)
-  offsetChart(index++, numericProps, testData.nonpositive, ctx)
-  offsetChart(index++, numericProps, testData.highpositive, ctx)
-  offsetChart(index++, numericProps, testData.nonnegative, ctx)
+  let chartData = [
+    { name: 'one', props: ordinalProps, values: testData.ordinal },
+    { name: 'two', props: ordinalProps, values: testData.sortedOrdinal },
+    { name: 'three', props: booleanProps, values: testData.boolean },
+    { name: 'four', props: numericProps, values: testData.mixed },
+    { name: 'five', props: numericProps, values: testData.highnegative },
+    { name: 'six', props: numericProps, values: testData.nonpositive },
+    { name: 'seven', props: numericProps, values: testData.highpositive },
+    { name: 'eight', props: numericProps, values: testData.nonnegative }
+  ]
+
+  for (let i = 0; i < chartData.length; i++) {
+    const data = chartData[i]
+    offsetChart(i, data.props, data.values, ctx)
+  }
+
+  let x
+  let y
+
+  let interval
+
+  const f = () => {
+    const i = Math.floor(x / spacing)
+    const j = y
+    const d = chartData[i]
+    console.log(`${d.name}: ${d.values[j]}`)
+  }
+
+  canvas.addEventListener('click', e => {
+    console.log(e)
+  })
+
+  canvas.addEventListener('mouseover', e => {
+    interval = setInterval(f, 1000)
+  })
+
+  canvas.addEventListener('mouseleave', e => {
+    clearInterval(interval)
+  })
+
+  canvas.addEventListener('mousemove', e => {
+    x = e.layerX
+    y = e.layerY
+  })
 
   root.appendChild(document.createElement('hr'))
 }
