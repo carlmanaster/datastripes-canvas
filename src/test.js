@@ -89,6 +89,51 @@ const makeOrdinalSection = () => {
   root.appendChild(document.createElement('hr'))
 }
 
+const makeMultipleSection = () => {
+  const width = 40
+  const numericProps = {
+    type: 'numeric',
+    width
+  }
+  const ordinalProps = {
+    type: 'ordinal',
+    width,
+    keys: R.split('', 'abcde')
+  }
+  const booleanProps = {
+    type: 'boolean',
+    width
+  }
+  let ctx
+
+  const h1 = document.createElement('h1')
+  root.appendChild(h1)
+  h1.innerText = 'Multiple Charts'
+
+  ctx = makeTestCtx(root, 'multiple')
+
+  const offsetChart = (index, props, values, ctx) => {
+    const dx = index * (width + 3)
+    ctx.save()
+    ctx.translate(dx, 0)
+    chart(props, values, ctx)
+    ctx.restore()
+  }
+
+  let index = 0
+  offsetChart(index++, ordinalProps, testData.ordinal, ctx)
+  offsetChart(index++, ordinalProps, testData.sortedOrdinal, ctx)
+  offsetChart(index++, booleanProps, testData.boolean, ctx)
+  offsetChart(index++, numericProps, testData.mixed, ctx)
+  offsetChart(index++, numericProps, testData.highnegative, ctx)
+  offsetChart(index++, numericProps, testData.nonpositive, ctx)
+  offsetChart(index++, numericProps, testData.highpositive, ctx)
+  offsetChart(index++, numericProps, testData.nonnegative, ctx)
+
+  root.appendChild(document.createElement('hr'))
+}
+
+makeMultipleSection()
 makeOrdinalSection()
 makeBooleanSection()
 makeNumericSection()
