@@ -53,11 +53,11 @@ const makeTestData = () => {
   const boolean = R.pipe(
     R.split(''),
     R.map(c => (c === 'n' ? null : c === 't'))
-  )('ttttfftftftftffnnftftftnfttftffftnnntttttf')
+  )('ttttfftftftftffnnftftftnfttftffftnnntttttftftft')
   const sortedBoolean = R.sortWith([U.nullsUp, U.trueUp], boolean)
 
   const ordinal = R.pipe(R.split(''), R.map(c => (c === 'n' ? null : c)))(
-    'dnenddabnbababnnccacbacbbabcb'
+    'dnenddabnbababnnccacbacbbabcbabcdeabcdeabcdebba'
   )
   const sortedOrdinal = R.sortWith([U.nullsUp, U.compare], ordinal)
 
@@ -66,6 +66,7 @@ const makeTestData = () => {
   const highpositive = R.map(wrap(n => n + 50), nonnegative)
   const highnegative = R.map(wrap(n => n - 50), nonpositive)
   const sorted = R.sortWith([U.nullsUp, N.numericalOrder], numericValues)
+
   return {
     mixed: numericValues,
     sorted,
