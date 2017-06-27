@@ -140,6 +140,7 @@ const makeMultipleSection = () => {
 
   let x
   let y
+  let logString
 
   let interval
 
@@ -147,7 +148,10 @@ const makeMultipleSection = () => {
     const i = Math.floor(x / spacing)
     const j = y
     const d = chartData[i]
-    console.log(`${d.name}: ${d.values[j]}`)
+    const s = `${d.name}: ${d.values[j]}`
+    if (s === logString) return
+    logString = s
+    console.log(logString)
   }
 
   canvas.addEventListener('click', e => {
