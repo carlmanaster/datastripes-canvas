@@ -14,6 +14,13 @@ const root = document.getElementById('root')
 
 let selection = testData.selection.slice()
 const isSelected = j => selection[j]
+const selectBetween = (y0, y1) => {
+  const yMin = R.min(y0, y1)
+  const yMax = R.max(y0, y1)
+  for (let i = 0; i < selection.length; i++) {
+    selection[i] = yMin < i && i <= yMax
+  }
+}
 
 const makeNumericSection = () => {
   const props = {
@@ -121,6 +128,14 @@ const makeMultipleSection = () => {
 
   const { canvas, ctx } = makeTestCanvas(root, 'multiple')
 
+  const refresh = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    for (let i = 0; i < chartData.length; i++) {
+      const data = chartData[i]
+      offsetChart(i, data.props, data.values, ctx)
+    }
+  }
+
   canvas.style.cursor = 'crosshair'
 
   const offsetChart = (index, props, values, ctx) => {
@@ -163,13 +178,25 @@ const makeMultipleSection = () => {
     console.log(logString)
   }
 
-  canvas.addEventListener('click', console.log)
+  let brushing = false
+  let yStart
+
+  canvas.addEventListener('mousedown', e => {
+    yStart = e.layerY
+    brushing = true
+  })
+
+  canvas.addEventListener('mouseup', e => {
+    brushing = false
+    refresh()
+  })
 
   canvas.addEventListener('mouseover', e => (interval = setInterval(f, 1000)))
 
   canvas.addEventListener('mouseleave', e => clearInterval(interval))
 
   canvas.addEventListener('mousemove', e => {
+    if (brushing) selectBetween(yStart, e.layerY)
     x = e.layerX
     y = e.layerY
   })
