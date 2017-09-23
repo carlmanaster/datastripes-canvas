@@ -12,7 +12,8 @@ const makeTestCanvas = (root, text) => {
 
 const root = document.getElementById('root')
 
-const isSelected = j => j > 3 && j < 12
+let selection = testData.selection.slice()
+const isSelected = j => selection[j]
 
 const makeNumericSection = () => {
   const props = {

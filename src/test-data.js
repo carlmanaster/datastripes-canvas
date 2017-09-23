@@ -61,6 +61,11 @@ const makeTestData = () => {
   )
   const sortedOrdinal = R.sortWith([U.nullsUp, U.compare], ordinal)
 
+  const selection = R.pipe(
+    R.split(''),
+    R.map(c => (c === 'n' ? null : c === 't'))
+  )('fffffftttttttttttttttfffffffffffffffffttfffffff')
+
   const nonnegative = R.map(wrap(Math.abs), numericValues)
   const nonpositive = R.map(wrap(n => -n), nonnegative)
   const highpositive = R.map(wrap(n => n + 50), nonnegative)
@@ -77,7 +82,8 @@ const makeTestData = () => {
     boolean,
     sortedBoolean,
     ordinal,
-    sortedOrdinal
+    sortedOrdinal,
+    selection
   }
 }
 
