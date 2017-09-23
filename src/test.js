@@ -184,24 +184,24 @@ const makeMultipleSection = () => {
   let brushing = false
   let yStart
 
+  const stopBrushing = () => {
+    if (!brushing) return
+    brushing = false
+    refresh()
+  }
+
   canvas.addEventListener('mousedown', e => {
     yStart = e.layerY
     brushing = true
   })
 
-  canvas.addEventListener('mouseup', e => {
-    brushing = false
-    refresh()
-  })
+  canvas.addEventListener('mouseup', stopBrushing)
 
   canvas.addEventListener('mouseover', e => (interval = setInterval(f, 1000)))
 
   canvas.addEventListener('mouseleave', e => {
     clearInterval(interval)
-    if (brushing) {
-      brushing = false
-      refresh()
-    }
+    stopBrushing()
   })
 
   canvas.addEventListener('mousemove', e => {
