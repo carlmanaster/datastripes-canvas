@@ -1,0 +1,17 @@
+ - selection
+ - highlight
+ - drag
+ - overview charts
+   - numeric
+   - ordinal
+   - boolean
+ - date charts
+   - standard
+   - overview
+ - tooltip?
+ - read data
+   - csv
+   - json
+ - column headers
+ - sorting
+ - documentation

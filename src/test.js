@@ -158,13 +158,9 @@ const makeMultipleSection = () => {
     console.log(e)
   })
 
-  canvas.addEventListener('mouseover', e => {
-    interval = setInterval(f, 1000)
-  })
+  canvas.addEventListener('mouseover', e => (interval = setInterval(f, 1000)))
 
-  canvas.addEventListener('mouseleave', e => {
-    clearInterval(interval)
-  })
+  canvas.addEventListener('mouseleave', e => clearInterval(interval))
 
   canvas.addEventListener('mousemove', e => {
     x = e.layerX
