@@ -24,6 +24,12 @@ const selectBetween = (y0, y1) => {
   }
 }
 
+const clearSelection = () => {
+  for (let i = 0; i < selection.length; i++) {
+    selection[i] = false
+  }
+}
+
 const makeNumericSection = () => {
   const props = {
     isSelected,
@@ -184,6 +190,13 @@ const makeMultipleSection = () => {
   let brushing = false
   let yStart
 
+  const startBrushing = e => {
+    yStart = e.layerY
+    brushing = true
+    clearSelection()
+    refresh()
+  }
+
   const stopBrushing = () => {
     if (!brushing) return
     brushing = false
@@ -192,8 +205,7 @@ const makeMultipleSection = () => {
 
   canvas.addEventListener('mousedown', e => {
     e.preventDefault()
-    yStart = e.layerY
-    brushing = true
+    startBrushing(e)
   })
 
   canvas.addEventListener('mouseup', stopBrushing)

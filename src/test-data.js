@@ -3,7 +3,7 @@ const makeTestData = () => {
   const numericValues = [
     0,
     -1,
-    2,
+    2.2,
     -3,
     4,
     -5,
