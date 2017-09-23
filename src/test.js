@@ -172,6 +172,7 @@ const makeMultipleSection = () => {
     const i = Math.floor(x / spacing)
     const j = y
     const d = chartData[i]
+    if (!d) return
     const s = `${d.name}: ${d.values[j]}`
     if (s === logString) return
     logString = s
