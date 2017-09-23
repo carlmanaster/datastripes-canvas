@@ -191,6 +191,7 @@ const makeMultipleSection = () => {
   }
 
   canvas.addEventListener('mousedown', e => {
+    e.preventDefault()
     yStart = e.layerY
     brushing = true
   })
