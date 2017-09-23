@@ -12,8 +12,12 @@ const makeTestCanvas = (root, text) => {
 
 const root = document.getElementById('root')
 
+const isSelected = j => j > 3 && j < 12
+
 const makeNumericSection = () => {
   const props = {
+    isSelected,
+    isSelected,
     type: 'numeric',
     width: 100
   }
@@ -50,6 +54,7 @@ const makeNumericSection = () => {
 
 const makeBooleanSection = () => {
   const props = {
+    isSelected,
     type: 'boolean',
     width: 100
   }
@@ -70,6 +75,7 @@ const makeBooleanSection = () => {
 
 const makeOrdinalSection = () => {
   const props = {
+    isSelected,
     type: 'ordinal',
     width: 100,
     keys: R.split('', 'abcde')
@@ -93,15 +99,18 @@ const makeMultipleSection = () => {
   const width = 40
   const spacing = width + 3
   const numericProps = {
+    isSelected,
     type: 'numeric',
     width
   }
   const ordinalProps = {
+    isSelected,
     type: 'ordinal',
     width,
     keys: R.split('', 'abcde')
   }
   const booleanProps = {
+    isSelected,
     type: 'boolean',
     width
   }

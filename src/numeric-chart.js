@@ -1,16 +1,13 @@
 const colorFor = v =>
   v >= 0 ? COLOR_BAR_NUMERIC_POSITIVE : COLOR_BAR_NUMERIC_NEGATIVE
 
-const backgroundColorFor = v =>
-  v === null ? COLOR_BACKGROUND_NULL : COLOR_BACKGROUND_UNSELECTED
-
 const numericChart = (props, values, ctx) => {
   const EDGE = 10
   const min = N.min(values)
   const max = N.max(values)
   const extent = max - min
 
-  const { width } = props
+  const { width, isSelected } = props
   const scalePositive = v => v * width / max
   const scaleHighPositive = v => (v - min) * (width - EDGE) / extent + EDGE
   const scaleNegative = v => (v - min) * width / extent
@@ -31,6 +28,12 @@ const numericChart = (props, values, ctx) => {
   const scale = scaleFor(min, max)
 
   const jag = y => y % 4 * EDGE / 8 + EDGE / 2
+
+  const backgroundColorFor = v => {
+    if (v === null) return COLOR_BACKGROUND_NULL
+    if (isSelected(y)) return COLOR_BACKGROUND_SELECTED
+    return COLOR_BACKGROUND_UNSELECTED
+  }
 
   const originFor = () => {
     if (!isFarFromZero) return 0

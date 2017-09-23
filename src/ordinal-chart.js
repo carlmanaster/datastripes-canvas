@@ -1,11 +1,14 @@
 const ordinalChart = (props, values, ctx) => {
-  const { width, keys } = props
+  const { width, isSelected, keys } = props
   const barWidth = width / keys.length - 1
 
   const startFor = b => keys.indexOf(b) * (barWidth + 1)
 
-  const backgroundColorFor = v =>
-    v === null ? COLOR_BACKGROUND_NULL : COLOR_BACKGROUND_UNSELECTED
+  const backgroundColorFor = v => {
+    if (v === null) return COLOR_BACKGROUND_NULL
+    if (isSelected(y)) return COLOR_BACKGROUND_SELECTED
+    return COLOR_BACKGROUND_UNSELECTED
+  }
 
   const drawBackground = v => {
     const color = backgroundColorFor(v)
