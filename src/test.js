@@ -13,7 +13,9 @@ const makeTestCanvas = (root, text) => {
 const root = document.getElementById('root')
 
 let selection = testData.selection.slice()
+
 const isSelected = j => selection[j]
+
 const selectBetween = (y0, y1) => {
   const yMin = R.min(y0, y1)
   const yMax = R.max(y0, y1)
@@ -194,10 +196,19 @@ const makeMultipleSection = () => {
 
   canvas.addEventListener('mouseover', e => (interval = setInterval(f, 1000)))
 
-  canvas.addEventListener('mouseleave', e => clearInterval(interval))
+  canvas.addEventListener('mouseleave', e => {
+    clearInterval(interval)
+    if (brushing) {
+      brushing = false
+      refresh()
+    }
+  })
 
   canvas.addEventListener('mousemove', e => {
-    if (brushing) selectBetween(yStart, e.layerY)
+    if (brushing) {
+      selectBetween(yStart, e.layerY)
+      refresh()
+    }
     x = e.layerX
     y = e.layerY
   })
