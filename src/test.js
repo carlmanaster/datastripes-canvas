@@ -129,8 +129,8 @@ const makeMultipleSection = () => {
     { name: 'four', props: numericProps, values: testData.mixed },
     { name: 'five', props: numericProps, values: testData.highnegative },
     { name: 'six', props: numericProps, values: testData.nonpositive },
-    { name: 'seven', props: numericProps, values: testData.highpositive },
-    { name: 'eight', props: numericProps, values: testData.nonnegative }
+    { name: 'seven', props: numericProps, values: testData.nonnegative },
+    { name: 'eight', props: numericProps, values: testData.highpositive },
   ]
 
   for (let i = 0; i < chartData.length; i++) {
@@ -154,9 +154,7 @@ const makeMultipleSection = () => {
     console.log(logString)
   }
 
-  canvas.addEventListener('click', e => {
-    console.log(e)
-  })
+  canvas.addEventListener('click', console.log)
 
   canvas.addEventListener('mouseover', e => (interval = setInterval(f, 1000)))
 
