@@ -25,9 +25,7 @@ const selectBetween = (y0, y1) => {
 }
 
 const clearSelection = () => {
-  for (let i = 0; i < selection.length; i++) {
-    selection[i] = false
-  }
+  selection = R.repeat(false, selection.length)
 }
 
 const makeNumericSection = () => {
