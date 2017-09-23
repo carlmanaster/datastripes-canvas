@@ -18,7 +18,6 @@ const isSelected = j => selection[j]
 const makeNumericSection = () => {
   const props = {
     isSelected,
-    isSelected,
     type: 'numeric',
     width: 100
   }
