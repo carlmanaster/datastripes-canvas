@@ -49,13 +49,13 @@ const reorderData = (t, data) => {
    Sort by the field, with nulls at the top, stably
 */
 const sortedNumeric = (data, index) => {
-  const { props, values } = data[index]
+  const { values } = data[index]
   const t = orderedTransformation.numeric(values)
   return reorderData(t, data)
 }
 
 const sortedBoolean = (data, index) => {
-  const { props, values } = data[index]
+  const { values } = data[index]
   const t = orderedTransformation.boolean(values)
   return reorderData(t, data)
 }
