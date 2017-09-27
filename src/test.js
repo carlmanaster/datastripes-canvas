@@ -134,6 +134,14 @@ const makeMultipleSection = () => {
 
   const { canvas, ctx } = makeTestCanvas(root, 'multiple')
 
+  const offsetChart = (index, props, values, ctx) => {
+    const dx = index * spacing
+    ctx.save()
+    ctx.translate(dx, 0)
+    chart(props, values, ctx)
+    ctx.restore()
+  }
+
   const refresh = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     for (let i = 0; i < chartData.length; i++) {
@@ -143,14 +151,6 @@ const makeMultipleSection = () => {
   }
 
   canvas.style.cursor = 'crosshair'
-
-  const offsetChart = (index, props, values, ctx) => {
-    const dx = index * spacing
-    ctx.save()
-    ctx.translate(dx, 0)
-    chart(props, values, ctx)
-    ctx.restore()
-  }
 
   let chartData = [
     { name: 'one', props: ordinalProps, values: testData.ordinal },
@@ -163,10 +163,7 @@ const makeMultipleSection = () => {
     { name: 'eight', props: numericProps, values: testData.highpositive },
   ]
 
-  for (let i = 0; i < chartData.length; i++) {
-    const data = chartData[i]
-    offsetChart(i, data.props, data.values, ctx)
-  }
+  refresh()
 
   let x
   let y
@@ -222,6 +219,14 @@ const makeMultipleSection = () => {
     }
     x = e.layerX
     y = e.layerY
+  })
+
+  canvas.addEventListener('click', e => {
+    if (e.layerY === yStart) {
+      const index = Math.floor(x / spacing)
+      chartData = sorted(chartData, index)
+      refresh()
+    }
   })
 
   root.appendChild(document.createElement('hr'))
