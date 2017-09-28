@@ -1,6 +1,7 @@
  √ selection
  √ highlight
  √ drag
+ √ sorting
  - overview charts
    - numeric
    - ordinal
@@ -13,5 +14,4 @@
    - csv
    - json
  - column headers
- - sorting
  - documentation
