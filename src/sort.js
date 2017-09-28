@@ -48,32 +48,28 @@ const reorderData = (t, data) => {
 /*
    Sort by the field, with nulls at the top, stably
 */
-const sortedNumeric = (data, index) => {
+const numericTransformation = (data, index) => {
   const { values } = data[index]
-  const t = orderedTransformation.numeric(values)
-  return reorderData(t, data)
+  return orderedTransformation.numeric(values)
 }
 
-const sortedBoolean = (data, index) => {
+const booleanTransformation = (data, index) => {
   const { values } = data[index]
-  const t = orderedTransformation.boolean(values)
-  return reorderData(t, data)
+  return orderedTransformation.boolean(values)
 }
 
-const sortedOrdinal = (data, index) => {
+const ordinalTransformation = (data, index) => {
   const { props, values } = data[index]
   const { keys } = props
-  const t = orderedTransformation.ordinal(keys)(values)
-  return reorderData(t, data)
+  return orderedTransformation.ordinal(keys)(values)
 }
 
-const sorted = (data, index) => {
+const getTransformation = (data, index) => {
   const d = data[index]
   const type = d.props.type
   switch (type) {
-    case 'numeric': return sortedNumeric(data, index)
-    case 'boolean': return sortedBoolean(data, index)
-    case 'ordinal': return sortedOrdinal(data, index)
-    default: return data
+    case 'numeric': return numericTransformation(data, index)
+    case 'boolean': return booleanTransformation(data, index)
+    case 'ordinal': return ordinalTransformation(data, index)
   }
 }

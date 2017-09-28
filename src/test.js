@@ -188,7 +188,6 @@ const makeMultipleSection = () => {
   const startBrushing = e => {
     yStart = e.layerY
     brushing = true
-    clearSelection()
     refresh()
   }
 
@@ -222,9 +221,12 @@ const makeMultipleSection = () => {
   })
 
   canvas.addEventListener('click', e => {
-    if (e.layerY === yStart) {
+    const dragged = e.layerY !== yStart
+    if (!dragged) {
       const index = Math.floor(x / spacing)
-      chartData = sorted(chartData, index)
+      const t = getTransformation(chartData, index)
+      chartData = reorderData(t, chartData)
+      selection = applyTransformation(t)(selection)
       refresh()
     }
   })
