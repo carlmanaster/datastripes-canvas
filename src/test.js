@@ -41,7 +41,7 @@ const makeOverviewSection = () => {
   h1.innerText = 'Overview Charts'
 
   ctx = makeTestCanvas(root, 'numeric').ctx
-  overviewChart(props, testData.nonnegative, ctx)
+  overviewChart(props, testData.mixed, ctx)
 
   root.appendChild(document.createElement('hr'))
 }

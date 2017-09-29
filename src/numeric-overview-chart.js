@@ -31,7 +31,6 @@ const numericOverviewChart = (props, values, ctx) => {
   }
 
   const drawBin = v => {
-    console.log(`b, v`, b, v)
     drawValue(v)
     b++
   }
