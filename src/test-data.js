@@ -53,7 +53,7 @@ const makeTestData = () => {
   const boolean = R.pipe(
     R.split(''),
     R.map(c => (c === 'n' ? null : c === 't'))
-  )('ttttfftftftftffnnftftftnfttftffftnnntttttftftft')
+  )('tttttttftftftffnnftftftnfttftffftnnntffttftftft')
   const sortedBoolean = R.sortWith([U.nullsUp, U.trueUp], boolean)
 
   const ordinal = R.pipe(R.split(''), R.map(c => (c === 'n' ? null : c)))(

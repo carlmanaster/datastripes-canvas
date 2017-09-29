@@ -29,6 +29,11 @@ const G = {
     ctx.fillStyle = color
     ctx.fillRect(xStart, y, width, 1)
   },
+  verticalLine: (color, x, yStart, yEnd, ctx) => {
+    const height = yEnd - yStart
+    ctx.fillStyle = color
+    ctx.fillRect(x, yStart, 1, height)
+  },
   rect: (color, x, y, width, height, ctx) => {
     ctx.fillStyle = color
     ctx.fillRect(x, y, width, height)

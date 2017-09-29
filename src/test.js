@@ -51,6 +51,16 @@ const makeOverviewSection = () => {
     width: 100,
     keys: R.split('', 'abcde')
   }
+  const booleanPropsAll = {
+    isSelected: () => true,
+    type: 'boolean',
+    width: 100,
+  }
+  const booleanPropsSome = {
+    isSelected: i => i === 8,
+    type: 'boolean',
+    width: 100,
+  }
   let ctx
 
   const h1 = document.createElement('h1')
@@ -68,6 +78,12 @@ const makeOverviewSection = () => {
 
   ctx = makeTestCanvas(root, 'ordinal-selected', 30).ctx
   overviewChart(ordinalPropsSome, testData.ordinal, ctx)
+
+  ctx = makeTestCanvas(root, 'boolean-all', 30).ctx
+  overviewChart(booleanPropsAll, testData.boolean, ctx)
+
+  ctx = makeTestCanvas(root, 'boolean-selected', 30).ctx
+  overviewChart(booleanPropsSome, testData.boolean, ctx)
 
   root.appendChild(document.createElement('hr'))
 }
