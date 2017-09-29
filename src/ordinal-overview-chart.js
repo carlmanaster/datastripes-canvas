@@ -3,7 +3,6 @@ const ordinalOverviewChart = (props, values, ctx) => {
   const BINS = 10
   const COLOR = COLOR_BAR_ORDINAL
   const { width, isSelected, keys } = props
-  console.log(`keys`, keys)
 
   const min = N.min(values)
   const max = N.max(values)
