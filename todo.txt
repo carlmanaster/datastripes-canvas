@@ -15,3 +15,6 @@
    - json
  - column headers
  - documentation
+
+http://papaparse.com/
+https://date-fns.org/

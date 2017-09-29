@@ -2,7 +2,7 @@ const numericOverviewChart = (props, values, ctx) => {
   const HEIGHT = 14
   const BINS = 10
   const COLOR = COLOR_BAR_NUMERIC_POSITIVE
-  const { width } = props
+  const { width, isSelected } = props
 
   const min = N.min(values)
   const max = N.max(values)
@@ -14,8 +14,14 @@ const numericOverviewChart = (props, values, ctx) => {
     bins[i]++
   }, values)
 
-  // reminder: selection overview also needs full data
-  //           in order to determine proper height
+  let selectedBins = R.repeat(0, BINS)
+  for (var i = 0; i < values.length; i++) {
+    if (!isSelected(i)) continue
+    const n = values[i]
+    if (n === null) continue
+    const b = Math.floor((BINS - 1) * (n - min) / (max - min))
+    selectedBins[b]++
+  }
 
   const nMax = N.max(bins)
   const scale = v => v * HEIGHT / nMax
@@ -35,5 +41,5 @@ const numericOverviewChart = (props, values, ctx) => {
     b++
   }
 
-  R.forEach(drawBin, bins)
+  R.forEach(drawBin, selectedBins)
 }

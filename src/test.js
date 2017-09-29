@@ -29,8 +29,13 @@ const clearSelection = () => {
 }
 
 const makeOverviewSection = () => {
-  const props = {
-    isSelected,
+  const propsAll = {
+    isSelected: () => true,
+    type: 'numeric',
+    width: 100
+  }
+  const propsSome = {
+    isSelected: i => i % 2 === 0,
     type: 'numeric',
     width: 100
   }
@@ -40,8 +45,11 @@ const makeOverviewSection = () => {
   root.appendChild(h1)
   h1.innerText = 'Overview Charts'
 
-  ctx = makeTestCanvas(root, 'numeric').ctx
-  overviewChart(props, testData.mixed, ctx)
+  ctx = makeTestCanvas(root, 'numeric-all').ctx
+  overviewChart(propsAll, testData.mixed, ctx)
+
+  ctx = makeTestCanvas(root, 'numeric-selected').ctx
+  overviewChart(propsSome, testData.mixed, ctx)
 
   root.appendChild(document.createElement('hr'))
 }
