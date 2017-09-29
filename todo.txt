@@ -2,10 +2,10 @@
  √ highlight
  √ drag
  √ sorting
- - overview charts
-   - numeric
-   - ordinal
-   - boolean
+ √ overview charts
+   √ numeric
+   √ ordinal
+   √ boolean
  - date charts
    - standard
    - overview
@@ -15,6 +15,7 @@
    - json
  - column headers
  - documentation
+ - readme
 
 http://papaparse.com/
 https://date-fns.org/
