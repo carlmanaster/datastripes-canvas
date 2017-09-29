@@ -6,8 +6,8 @@ const fns = {
 
 const overviewFns = {
   numeric: numericOverviewChart,
+  ordinal: ordinalOverviewChart,
   // boolean: booleanOverviewChart,
-  // ordinal: ordinalOverviewChart
 }
 
 const chart = (props, values, ctx) => fns[props.type](props, values, ctx)

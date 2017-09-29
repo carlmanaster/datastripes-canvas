@@ -1,4 +1,4 @@
-const makeTestCanvas = (root, text) => {
+const makeTestCanvas = (root, text, height = 60) => {
   const label = document.createElement('div')
   root.appendChild(label)
   label.innerText = text
@@ -6,7 +6,7 @@ const makeTestCanvas = (root, text) => {
   const canvas = document.createElement('canvas')
   root.appendChild(canvas)
   const ctx = canvas.getContext('2d')
-  setSize({ width: 400, height: 60 }, ctx)
+  setSize({ width: 400, height }, ctx)
   return { ctx, canvas }
 }
 
@@ -29,15 +29,27 @@ const clearSelection = () => {
 }
 
 const makeOverviewSection = () => {
-  const propsAll = {
+  const numericPropsAll = {
     isSelected: () => true,
     type: 'numeric',
     width: 100
   }
-  const propsSome = {
+  const numericPropsSome = {
     isSelected: i => i % 2 === 0,
     type: 'numeric',
     width: 100
+  }
+  const ordinalPropsAll = {
+    isSelected: () => true,
+    type: 'ordinal',
+    width: 100,
+    keys: R.split('', 'abcde')
+  }
+  const ordinalPropsSome = {
+    isSelected: i => i % 2 === 0,
+    type: 'ordinal',
+    width: 100,
+    keys: R.split('', 'abcde')
   }
   let ctx
 
@@ -45,11 +57,17 @@ const makeOverviewSection = () => {
   root.appendChild(h1)
   h1.innerText = 'Overview Charts'
 
-  ctx = makeTestCanvas(root, 'numeric-all').ctx
-  overviewChart(propsAll, testData.mixed, ctx)
+  ctx = makeTestCanvas(root, 'numeric-all', 30).ctx
+  overviewChart(numericPropsAll, testData.mixed, ctx)
 
-  ctx = makeTestCanvas(root, 'numeric-selected').ctx
-  overviewChart(propsSome, testData.mixed, ctx)
+  ctx = makeTestCanvas(root, 'numeric-selected', 30).ctx
+  overviewChart(numericPropsSome, testData.mixed, ctx)
+
+  ctx = makeTestCanvas(root, 'ordinal-all', 30).ctx
+  overviewChart(ordinalPropsAll, testData.ordinal, ctx)
+
+  ctx = makeTestCanvas(root, 'ordinal-selected', 30).ctx
+  overviewChart(ordinalPropsSome, testData.ordinal, ctx)
 
   root.appendChild(document.createElement('hr'))
 }
