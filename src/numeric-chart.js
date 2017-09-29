@@ -1,7 +1,7 @@
-const colorFor = v =>
-  v >= 0 ? COLOR_BAR_NUMERIC_POSITIVE : COLOR_BAR_NUMERIC_NEGATIVE
-
 const numericChart = (props, values, ctx) => {
+  const colorFor = v =>
+    v >= 0 ? COLOR_BAR_NUMERIC_POSITIVE : COLOR_BAR_NUMERIC_NEGATIVE
+
   const EDGE = 10
   const min = N.min(values)
   const max = N.max(values)

@@ -28,6 +28,24 @@ const clearSelection = () => {
   selection = R.repeat(false, selection.length)
 }
 
+const makeOverviewSection = () => {
+  const props = {
+    isSelected,
+    type: 'numeric',
+    width: 100
+  }
+  let ctx
+
+  const h1 = document.createElement('h1')
+  root.appendChild(h1)
+  h1.innerText = 'Overview Charts'
+
+  ctx = makeTestCanvas(root, 'numeric').ctx
+  overviewChart(props, testData.nonnegative, ctx)
+
+  root.appendChild(document.createElement('hr'))
+}
+
 const makeNumericSection = () => {
   const props = {
     isSelected,
@@ -234,7 +252,8 @@ const makeMultipleSection = () => {
   root.appendChild(document.createElement('hr'))
 }
 
+makeOverviewSection()
 makeMultipleSection()
+makeNumericSection()
 makeOrdinalSection()
 makeBooleanSection()
-makeNumericSection()

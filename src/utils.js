@@ -28,5 +28,9 @@ const G = {
     const width = xEnd - xStart
     ctx.fillStyle = color
     ctx.fillRect(xStart, y, width, 1)
+  },
+  rect: (color, x, y, width, height, ctx) => {
+    ctx.fillStyle = color
+    ctx.fillRect(x, y, width, height)
   }
 }
