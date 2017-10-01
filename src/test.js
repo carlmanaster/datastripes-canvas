@@ -12,21 +12,7 @@ const makeTestCanvas = (root, text, height = 60) => {
 
 const root = document.getElementById('root')
 
-let selection = testData.selection.slice()
-
-const isSelected = j => selection[j]
-
-const selectBetween = (y0, y1) => {
-  const yMin = R.min(y0, y1)
-  const yMax = R.max(y0, y1)
-  for (let i = 0; i < selection.length; i++) {
-    selection[i] = yMin < i && i <= yMax
-  }
-}
-
-const clearSelection = () => {
-  selection = R.repeat(false, selection.length)
-}
+setSelection(testData.selection.slice())
 
 const makeOverviewSection = () => {
   const numericPropsAll = {
@@ -286,7 +272,7 @@ const makeMultipleSection = () => {
       const index = Math.floor(x / spacing)
       const t = getTransformation(chartData, index)
       chartData = reorderData(t, chartData)
-      selection = applyTransformation(t)(selection)
+      setSelection(applyTransformation(t)(selection))
       refresh()
     }
   })
@@ -299,3 +285,13 @@ makeMultipleSection()
 makeNumericSection()
 makeOrdinalSection()
 makeBooleanSection()
+
+// const f = new File('baseball.txt')
+// const url = 'http://www4.stat.ncsu.edu/~boos/var.select/baseball.txt'
+// Papa.parse(url, {
+// 	download: true,
+//   header: true,
+// 	complete: function(results) {
+// 		console.log(results);
+// 	}
+// })
