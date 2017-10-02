@@ -101,6 +101,8 @@ const toBool = s => {
   const b = s.toString().toLowerCase()
   if (s === 'true') return true
   if (s === 'false') return false
+  if (s === '1') return true
+  if (s === '0') return false
   return null
 }
 

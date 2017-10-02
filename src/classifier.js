@@ -1,4 +1,11 @@
 const classify = columnData => {
+  const binary = a => {
+    if (a === null) return true
+    return a === '1' || a === '0'
+  }
+  const isBinary = R.all(binary, columnData)
+  if (isBinary) return 'boolean'
+
   const num = a => a === null || (!isNaN(parseFloat(a)) && isFinite(a))
   const isNumber = R.all(num, columnData)
   if (isNumber) return 'numeric'
