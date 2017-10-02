@@ -19,16 +19,7 @@ const booleanProps = {
   width
 }
 
-let chartData = [
-  { name: 'one', props: ordinalProps, values: testData.ordinal },
-  { name: 'two', props: ordinalProps, values: testData.sortedOrdinal },
-  { name: 'three', props: booleanProps, values: testData.boolean },
-  { name: 'four', props: numericProps, values: testData.mixed },
-  { name: 'five', props: numericProps, values: testData.highnegative },
-  { name: 'six', props: numericProps, values: testData.nonpositive },
-  { name: 'seven', props: numericProps, values: testData.nonnegative },
-  { name: 'eight', props: numericProps, values: testData.highpositive },
-]
+let chartData = []
 
 const root = document.getElementById('root')
 const picker = document.getElementById('file-picker')
@@ -45,8 +36,7 @@ const makeCanvas = (root, height = 800) => {
 
 const h1 = document.createElement('h1')
 
-const { canvas, ctx } = makeCanvas(root, dataHeight(testData))
-setSelection(R.repeat(false, dataHeight(testData)))
+const { canvas, ctx } = makeCanvas(root)
 
 const offsetChart = (index, name, props, values, ctx) => {
   const dx = index * spacing
@@ -70,7 +60,6 @@ const refresh = () => {
     offsetChart(i, data.name, data.props, data.values, ctx)
   }
 }
-
 
 refresh()
 
