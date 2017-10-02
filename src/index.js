@@ -1,6 +1,6 @@
 const dataHeight = data => Object.values(data)[0].length
 
-const width = 40
+const width = 50
 
 const numericProps = {
   isSelected,
@@ -33,6 +33,7 @@ let chartData = [
 const root = document.getElementById('root')
 const picker = document.getElementById('file-picker')
 const spacing = width + 3
+const labelHeight = 20
 
 const makeCanvas = (root, height = 800) => {
   const canvas = document.createElement('canvas')
@@ -47,10 +48,17 @@ const h1 = document.createElement('h1')
 const { canvas, ctx } = makeCanvas(root, dataHeight(testData))
 setSelection(R.repeat(false, dataHeight(testData)))
 
-const offsetChart = (index, props, values, ctx) => {
+const offsetChart = (index, name, props, values, ctx) => {
   const dx = index * spacing
+  const dy = labelHeight
   ctx.save()
-  ctx.translate(dx, 0)
+  ctx.translate(dx, dy)
+
+  let label = name
+  if (label.length > 10) label = label.slice(0, 8) + '...'
+
+  ctx.fillText(label, 0, -labelHeight / 2)
+
   chart(props, values, ctx)
   ctx.restore()
 }
@@ -59,11 +67,10 @@ const refresh = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height)
   for (let i = 0; i < chartData.length; i++) {
     const data = chartData[i]
-    offsetChart(i, data.props, data.values, ctx)
+    offsetChart(i, data.name, data.props, data.values, ctx)
   }
 }
 
-canvas.style.cursor = 'crosshair'
 
 refresh()
 
@@ -75,7 +82,8 @@ let interval
 
 const f = () => {
   const i = Math.floor(x / spacing)
-  const j = y
+  const j = y - labelHeight
+  if (j < 0) return
   const d = chartData[i]
   if (!d) return
   const s = `${d.name}: ${d.values[j]}`
@@ -143,7 +151,8 @@ picker.addEventListener('change', e => {
       chartData = makeDataset(data)
       const rows = data.length - 1
       const columns = data[0].length
-      setSize({ width: columns * spacing, height: rows }, ctx)
+      setSelection(R.repeat(false, rows))
+      setSize({ width: columns * spacing, height: rows + labelHeight }, ctx)
   		refresh()
   	}
   })
@@ -170,17 +179,20 @@ canvas.addEventListener('mousemove', e => {
   }
   x = e.layerX
   y = e.layerY
+
+  canvas.style.cursor = y < labelHeight ? 'pointer' : 'crosshair'
 })
 
 canvas.addEventListener('click', e => {
-  const dragged = e.layerY !== yStart
-  if (!dragged) {
-    const index = Math.floor(x / spacing)
-    const t = getTransformation(chartData, index)
-    chartData = reorderData(t, chartData)
-    setSelection(applyTransformation(t)(selection))
-    refresh()
-  }
+  const y = e.layerY
+  const dragged = y !== yStart
+  if (dragged) return
+  if (y > labelHeight) return
+  const index = Math.floor(x / spacing)
+  const t = getTransformation(chartData, index)
+  chartData = reorderData(t, chartData)
+  setSelection(applyTransformation(t)(selection))
+  refresh()
 })
 
 root.appendChild(document.createElement('hr'))
