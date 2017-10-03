@@ -19,6 +19,15 @@ const N = {
   numericalOrder: (a, b) => a - b,
   sum: A => R.reduce(R.add, 0, U.nonNull(A)),
   mean: A => N.sum(A) / U.nonNull(A).length,
+
+  standardDeviation: A => {
+    const V = U.nonNull(A)
+    const mean = N.mean(V)
+    const n = V.length
+    const fn = (a, b) => a + Math.pow(b - mean, 2)
+    const sum = R.reduce(fn, 0, V)
+    return Math.sqrt(sum / n)
+  },
 }
 
 const G = {

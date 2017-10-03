@@ -47,6 +47,10 @@ const numericOverviewChart = (props, values, ctx) => {
 
   R.forEach(drawBin, selectedBins)
 
+  const std = N.standardDeviation(values)
+  const µ = N.mean(values)
+  const µSelected = N.mean(selectedValues)
+  const color = Math.abs(µ - µSelected) > 2 * std ? 'red' : 'black'
   const x = width * N.mean(selectedValues) / max
-  G.verticalLine('black', x, 0, HEIGHT, ctx)
+  G.verticalLine(color, x, 0, HEIGHT, ctx)
 }
