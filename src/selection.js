@@ -12,5 +12,5 @@ const selectBetween = (y0, y1) => {
   }
 }
 
-const emptySelection = R.repeat(false, selection.length)
+const emptySelection = () => R.repeat(false, selection.length)
 const clearSelection = () => { setSelection(emptySelection()) }

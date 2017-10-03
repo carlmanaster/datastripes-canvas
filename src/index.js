@@ -216,7 +216,11 @@ canvas.addEventListener('click', e => {
   const y = e.layerY
   const dragged = y !== yStart
   if (dragged) return
-  if (y > dataStartY) return
+  if (y > dataStartY) {
+    clearSelection()
+    refresh()
+    return
+  }
   const index = Math.floor(x / spacing)
   const t = getTransformation(chartData, index)
   chartData = reorderData(t, chartData)
