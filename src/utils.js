@@ -9,18 +9,16 @@ const U = {
     if (a === b) return 0
     return a ? -1 : 1
   },
-  compare: (a, b) => {
-    return R.comparator((a, b) => a - b)
-    // if (a === b) return 0
-    // return a > b ? 1 : -1
-  },
+  compare: (a, b) => R.comparator((a, b) => a - b),
   nonNull: A => R.filter(n => n !== null, A)
 }
 
 const N = {
   max: A => R.reduce(R.max, -Infinity, U.nonNull(A)),
   min: A => R.reduce(R.min, Infinity, U.nonNull(A)),
-  numericalOrder: (a, b) => a - b
+  numericalOrder: (a, b) => a - b,
+  sum: A => R.reduce(R.add, 0, U.nonNull(A)),
+  mean: A => N.sum(A) / U.nonNull(A).length,
 }
 
 const G = {

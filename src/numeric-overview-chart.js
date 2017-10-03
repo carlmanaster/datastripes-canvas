@@ -14,10 +14,14 @@ const numericOverviewChart = (props, values, ctx) => {
     bins[i]++
   }, values)
 
-  let selectedBins = R.repeat(0, BINS)
+  let selectedValues = []
   for (var i = 0; i < values.length; i++) {
-    if (!isSelected(i)) continue
-    const n = values[i]
+    if (isSelected(i)) selectedValues.push(values[i])
+  }
+
+  let selectedBins = R.repeat(0, BINS)
+  for (var i = 0; i < selectedValues.length; i++) {
+    const n = selectedValues[i]
     if (n === null) continue
     const b = Math.floor((BINS - 1) * (n - min) / (max - min))
     selectedBins[b]++
@@ -42,4 +46,7 @@ const numericOverviewChart = (props, values, ctx) => {
   }
 
   R.forEach(drawBin, selectedBins)
+
+  const x = width * N.mean(selectedValues) / max
+  G.verticalLine('black', x, 0, HEIGHT, ctx)
 }
