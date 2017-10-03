@@ -25,6 +25,7 @@ const root = document.getElementById('root')
 const picker = document.getElementById('file-picker')
 const spacing = width + 3
 const labelHeight = 20
+const overviewHeight = 20
 
 const makeCanvas = (root, height = 800) => {
   const canvas = document.createElement('canvas')
@@ -38,26 +39,62 @@ const h1 = document.createElement('h1')
 
 const { canvas, ctx } = makeCanvas(root)
 
-const offsetChart = (index, name, props, values, ctx) => {
+const abbreviate = s => s. length < 10 ? s : s.slice(0, 8) + '...'
+
+const drawChart = (index, props, values, ctx) => {
+  const dx = index * spacing
+  const dy = labelHeight + 2 * overviewHeight
+  ctx.save()
+  ctx.translate(dx, dy)
+
+  chart(props, values, ctx)
+
+  ctx.restore()
+}
+
+const drawTotalSummary = (index, props, values, ctx) => {
+  const totalProps = Object.assign({}, props, {isSelected: () => true})
   const dx = index * spacing
   const dy = labelHeight
   ctx.save()
   ctx.translate(dx, dy)
 
-  let label = name
-  if (label.length > 10) label = label.slice(0, 8) + '...'
+  overviewChart(totalProps, values, ctx)
 
-  ctx.fillText(label, 0, -labelHeight / 2)
+  ctx.restore()
+}
 
-  chart(props, values, ctx)
+const drawSelectionSummary = (index, props, values, ctx) => {
+  const dx = index * spacing
+  const dy = labelHeight + overviewHeight
+  ctx.save()
+  ctx.translate(dx, dy)
+
+  overviewChart(props, values, ctx)
+
+  ctx.restore()
+}
+
+const drawLabel = (index, name, ctx) => {
+  const dx = index * spacing
+  const dy = labelHeight / 2
+  ctx.save()
+  ctx.translate(dx, dy)
+
+  const label = abbreviate(name)
+  ctx.fillText(label, 0, 0)
+
   ctx.restore()
 }
 
 const refresh = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height)
   for (let i = 0; i < chartData.length; i++) {
-    const data = chartData[i]
-    offsetChart(i, data.name, data.props, data.values, ctx)
+    const { name, props, values } = chartData[i]
+    drawLabel(i, name, ctx)
+    drawTotalSummary(i, props, values, ctx)
+    drawSelectionSummary(i, props, values, ctx)
+    drawChart(i, props, values, ctx)
   }
 }
 
@@ -71,7 +108,7 @@ let interval
 
 const f = () => {
   const i = Math.floor(x / spacing)
-  const j = y - labelHeight
+  const j = y - labelHeight - 2 * overviewHeight
   if (j < 0) return
   const d = chartData[i]
   if (!d) return
@@ -143,7 +180,7 @@ picker.addEventListener('change', e => {
       const rows = data.length - 1
       const columns = data[0].length
       setSelection(R.repeat(false, rows))
-      setSize({ width: columns * spacing, height: rows + labelHeight }, ctx)
+      setSize({ width: columns * spacing, height: rows + labelHeight + 2 * overviewHeight }, ctx)
   		refresh()
   	}
   })
@@ -165,7 +202,8 @@ canvas.addEventListener('mouseleave', e => {
 
 canvas.addEventListener('mousemove', e => {
   if (brushing) {
-    selectBetween(yStart, e.layerY)
+    const z = labelHeight + 2 * overviewHeight
+    selectBetween(yStart - z, e.layerY - z)
     refresh()
   }
   x = e.layerX
@@ -178,7 +216,7 @@ canvas.addEventListener('click', e => {
   const y = e.layerY
   const dragged = y !== yStart
   if (dragged) return
-  if (y > labelHeight) return
+  if (y > labelHeight + 2 * overviewHeight) return
   const index = Math.floor(x / spacing)
   const t = getTransformation(chartData, index)
   chartData = reorderData(t, chartData)
