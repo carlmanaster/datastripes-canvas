@@ -19,13 +19,17 @@ const booleanProps = {
   width
 }
 
-let chartData = []
-
 const root = document.getElementById('root')
 const picker = document.getElementById('file-picker')
 const spacing = width + 3
 const labelHeight = 20
 const overviewHeight = 20
+const labelStartY = labelHeight / 2
+const totalOverviewStartY = labelHeight
+const selectionOverviewStartY = labelHeight + overviewHeight
+const dataStartY = labelHeight + 2 * overviewHeight
+
+let chartData = []
 
 const makeCanvas = (root, height = 800) => {
   const canvas = document.createElement('canvas')
@@ -35,15 +39,13 @@ const makeCanvas = (root, height = 800) => {
   return { ctx, canvas }
 }
 
-const h1 = document.createElement('h1')
-
 const { canvas, ctx } = makeCanvas(root)
 
 const abbreviate = s => s. length < 10 ? s : s.slice(0, 8) + '...'
 
 const drawChart = (index, props, values, ctx) => {
   const dx = index * spacing
-  const dy = labelHeight + 2 * overviewHeight
+  const dy = dataStartY
   ctx.save()
   ctx.translate(dx, dy)
 
@@ -55,7 +57,7 @@ const drawChart = (index, props, values, ctx) => {
 const drawTotalSummary = (index, props, values, ctx) => {
   const totalProps = Object.assign({}, props, {isSelected: () => true})
   const dx = index * spacing
-  const dy = labelHeight
+  const dy = totalOverviewStartY
   ctx.save()
   ctx.translate(dx, dy)
 
@@ -66,7 +68,7 @@ const drawTotalSummary = (index, props, values, ctx) => {
 
 const drawSelectionSummary = (index, props, values, ctx) => {
   const dx = index * spacing
-  const dy = labelHeight + overviewHeight
+  const dy = selectionOverviewStartY
   ctx.save()
   ctx.translate(dx, dy)
 
@@ -77,7 +79,7 @@ const drawSelectionSummary = (index, props, values, ctx) => {
 
 const drawLabel = (index, name, ctx) => {
   const dx = index * spacing
-  const dy = labelHeight / 2
+  const dy = labelStartY
   ctx.save()
   ctx.translate(dx, dy)
 
@@ -103,16 +105,15 @@ refresh()
 let x
 let y
 let logString
-
 let interval
 
-const f = () => {
+const logHoveredValue = () => {
   const i = Math.floor(x / spacing)
-  const j = y - labelHeight - 2 * overviewHeight
+  const column = chartData[i]
+  if (!column) return
+  const j = y - dataStartY
   if (j < 0) return
-  const d = chartData[i]
-  if (!d) return
-  const s = `${d.name}: ${d.values[j]}`
+  const s = `${column.name}: ${column.values[j]}`
   if (s === logString) return
   logString = s
   console.log(logString)
@@ -180,7 +181,7 @@ picker.addEventListener('change', e => {
       const rows = data.length - 1
       const columns = data[0].length
       setSelection(R.repeat(false, rows))
-      setSize({ width: columns * spacing, height: rows + labelHeight + 2 * overviewHeight }, ctx)
+      setSize({ width: columns * spacing, height: rows + dataStartY }, ctx)
   		refresh()
   	}
   })
@@ -193,7 +194,7 @@ canvas.addEventListener('mousedown', e => {
 
 canvas.addEventListener('mouseup', stopBrushing)
 
-canvas.addEventListener('mouseover', e => (interval = setInterval(f, 1000)))
+canvas.addEventListener('mouseover', e => (interval = setInterval(logHoveredValue, 1000)))
 
 canvas.addEventListener('mouseleave', e => {
   clearInterval(interval)
@@ -201,27 +202,24 @@ canvas.addEventListener('mouseleave', e => {
 })
 
 canvas.addEventListener('mousemove', e => {
-  if (brushing) {
-    const z = labelHeight + 2 * overviewHeight
-    selectBetween(yStart - z, e.layerY - z)
+  const inLabel = y < labelHeight
+  canvas.style.cursor = inLabel ? 'pointer' : 'crosshair'
+  if (brushing && !inLabel) {
+    selectBetween(yStart - dataStartY, e.layerY - dataStartY)
     refresh()
   }
   x = e.layerX
   y = e.layerY
-
-  canvas.style.cursor = y < labelHeight ? 'pointer' : 'crosshair'
 })
 
 canvas.addEventListener('click', e => {
   const y = e.layerY
   const dragged = y !== yStart
   if (dragged) return
-  if (y > labelHeight + 2 * overviewHeight) return
+  if (y > dataStartY) return
   const index = Math.floor(x / spacing)
   const t = getTransformation(chartData, index)
   chartData = reorderData(t, chartData)
   setSelection(applyTransformation(t)(selection))
   refresh()
 })
-
-root.appendChild(document.createElement('hr'))
