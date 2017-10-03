@@ -50,7 +50,7 @@ const numericOverviewChart = (props, values, ctx) => {
   const std = N.standardDeviation(values)
   const µ = N.mean(values)
   const µSelected = N.mean(selectedValues)
-  const color = Math.abs(µ - µSelected) > 2 * std ? 'red' : 'black'
+  const color = Math.abs(µ - µSelected) > 2 * std ? 'red' : 'blue'
   const x = width * N.mean(selectedValues) / max
   G.verticalLine(color, x, 0, HEIGHT, ctx)
 }
