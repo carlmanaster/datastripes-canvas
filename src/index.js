@@ -31,7 +31,7 @@ const dataStartY = labelHeight + 2 * overviewHeight
 
 let chartData = []
 
-const makeCanvas = (root, height = 800) => {
+const makeCanvas = (root, height = 100) => {
   const canvas = document.createElement('canvas')
   root.appendChild(canvas)
   const ctx = canvas.getContext('2d')
@@ -185,6 +185,10 @@ picker.addEventListener('change', e => {
   		refresh()
   	}
   })
+})
+
+picker.addEventListener('click', e => {
+  picker.value = ''
 })
 
 canvas.addEventListener('mousedown', e => {
