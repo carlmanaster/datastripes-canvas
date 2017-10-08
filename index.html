@@ -2,12 +2,15 @@
 <body>
   <div id="root"> </div>
   <hr>
-  <input id="file-picker" type="file" style = "padding:10px">
-  |
-  <a href="https://github.com/carlmanaster/datastripes-canvas/wiki/Datastripes" target="_blank">about</a>
-  |
-  <a href="mailto:manaster@pobox.com?subject=Datastripes%20Question">support</a>
-  |
+  <div width="100vw" position="absolute">
+    <input id="file-picker" type="file" style = "padding:10px">
+    |
+    <a href="https://github.com/carlmanaster/datastripes-canvas/wiki/Datastripes" target="_blank">about</a>
+    |
+    <a href="mailto:manaster@pobox.com?subject=Datastripes%20Question">support</a>
+    |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <span id="label"></span>
+  </div>
   <hr>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ramda/0.24.1/ramda.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.3.6/papaparse.min.js"></script>

@@ -21,6 +21,7 @@ const booleanProps = {
 
 const root = document.getElementById('root')
 const picker = document.getElementById('file-picker')
+const label = document.getElementById('label')
 const spacing = width + 3
 const labelHeight = 20
 const overviewHeight = 20
@@ -116,7 +117,7 @@ const logHoveredValue = () => {
   const s = `${column.name}: ${column.values[j]}`
   if (s === logString) return
   logString = s
-  console.log(logString)
+  label.innerHTML = logString
 }
 
 let brushing = false
@@ -203,6 +204,7 @@ canvas.addEventListener('mouseover', e => (interval = setInterval(logHoveredValu
 canvas.addEventListener('mouseleave', e => {
   clearInterval(interval)
   stopBrushing()
+  label.innerHTML = ''
 })
 
 canvas.addEventListener('mousemove', e => {
