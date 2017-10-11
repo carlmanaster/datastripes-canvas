@@ -1,12 +1,12 @@
 const classify = columnData => {
   const binary = a => {
-    if (a === null) return true
+    if (a === null || a === '') return true
     return a === '1' || a === '0'
   }
   const isBinary = R.all(binary, columnData)
   if (isBinary) return 'boolean'
 
-  const num = a => a === null || (!isNaN(parseFloat(a)) && isFinite(a))
+  const num = a => a === null || a === '' || (!isNaN(parseFloat(a)) && isFinite(a))
   const isNumber = R.all(num, columnData)
   if (isNumber) return 'numeric'
 
@@ -14,7 +14,7 @@ const classify = columnData => {
   // if (isDate) return 'date'
 
   const bool = a => {
-    if (a === null) return true
+    if (a === null || a === '') return true
     const s = a.toString().toLowerCase()
     return s === 'true' || s === 'false'
   }

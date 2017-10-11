@@ -136,7 +136,7 @@ const stopBrushing = () => {
 }
 
 const toBool = s => {
-  if (s === null || s === 'null') return null
+  if (s === null || s === '') return null
   const b = s.toString().toLowerCase()
   if (s === 'true') return true
   if (s === 'false') return false
@@ -146,12 +146,12 @@ const toBool = s => {
 }
 
 const toString = s => {
-  if (s === null || s === 'null') return null
+  if (s === null || s === '') return null
   return s
 }
 
 const toNumber = s => {
-  if (s === null || s === 'null') return null
+  if (s === null || s === '') return null
   return parseFloat(s)
 }
 
