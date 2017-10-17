@@ -1,5 +1,7 @@
 const dataHeight = data => Object.values(data)[0].length
 
+const BASEBALL_URL = 'https://raw.githubusercontent.com/carlmanaster/datastripes-canvas/master/datasets/baseball.csv'
+
 const width = 50
 
 const numericProps = {
@@ -21,6 +23,7 @@ const booleanProps = {
 
 const root = document.getElementById('root')
 const picker = document.getElementById('file-picker')
+const example = document.getElementById('example')
 const label = document.getElementById('label')
 const spacing = width + 3
 const labelHeight = 20
@@ -170,10 +173,8 @@ const makeDataset = d => {
   return dataset
 }
 
-picker.addEventListener('change', e => {
-  const file = e.target.files[0]
-  if (!file) return
-  Papa.parse(file, {
+const loadDataset = fileOrUrl => {
+  Papa.parse(fileOrUrl, {
   	download: true,
     skipEmptyLines: true,
   	complete: function(results) {
@@ -186,6 +187,16 @@ picker.addEventListener('change', e => {
   		refresh()
   	}
   })
+}
+
+const loadBaseballDataset = () => loadDataset(BASEBALL_URL)
+
+example.addEventListener('click', loadBaseballDataset)
+
+picker.addEventListener('change', e => {
+  const file = e.target.files[0]
+  if (!file) return
+  loadDataset(file)
 })
 
 picker.addEventListener('click', e => {
