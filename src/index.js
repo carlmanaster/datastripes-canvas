@@ -141,10 +141,10 @@ const stopBrushing = () => {
 const toBool = s => {
   if (s === null || s === '') return null
   const b = s.toString().toLowerCase()
-  if (s === 'true') return true
-  if (s === 'false') return false
-  if (s === '1') return true
-  if (s === '0') return false
+  if (b === 'true') return true
+  if (b === 'false') return false
+  if (b === '1') return true
+  if (b === '0') return false
   return null
 }
 
