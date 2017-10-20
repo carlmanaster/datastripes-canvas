@@ -14,4 +14,11 @@ const convert = (type, strings) => {
     const values = R.map(toNumber, strings)
     return { values }
   }
+
+  if (type === 'date') {
+    const format = detectDateFormat(columnData)
+    const fn = toDate(format)
+    const values = R.map(fn, strings)
+    return { values }
+  }
 }

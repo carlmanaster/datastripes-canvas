@@ -50,6 +50,70 @@ const makeTestData = () => {
     -20
   ]
 
+  const dateStrings = [
+    "06/07/15",
+    "06/07/15",
+    "07/07/15",
+    "07/07/15",
+    "07/07/15",
+    "07/07/15",
+    "07/07/15",
+    "07/07/15",
+    "07/07/15",
+    "07/07/15",
+    "08/07/15",
+    "08/07/15",
+    "09/07/15",
+    "09/07/15",
+    "09/07/15",
+    "n",
+    "09/07/15",
+    "09/07/15",
+    "10/07/15",
+    "10/07/15",
+    "10/07/15",
+    "11/07/15",
+    "12/07/15",
+    "12/07/15",
+    "12/07/15",
+    "12/07/15",
+    "12/07/15",
+    "13/07/15",
+    "13/07/15",
+    "13/07/15",
+    "13/07/15",
+    "14/07/15",
+    "14/07/15",
+    "n",
+    "16/07/15",
+    "16/07/15",
+    "16/07/15",
+    "16/07/15",
+    "n",
+    "16/07/15",
+    "16/07/15",
+    "17/07/15",
+    "17/07/15",
+    "17/07/15",
+    "17/07/15",
+    "n",
+    "18/07/15",
+  ]
+
+  const toDate = format => s => {
+    if (s === null || s === '') return null
+    const [a, b, c] = s.split('/')
+    const cc = parseInt(c)
+    const y = cc > 100 ? cc : cc > 17 ? 1900 + cc : 2000 + cc
+    switch (format) {
+      case 'MM/DD/YYYY': return new Date(y, a, b)
+      case 'DD/MM/YYYY': return new Date(y, a, b)
+    }
+  }
+
+  const dates = R.map(s => (s === 'n' ? null : toDate('MM/DD/YYYY')(s)))(dateStrings)
+  const sortedDates = R.sortWith([U.nullsUp, D.dateOrder], dates)
+
   const boolean = R.pipe(
     R.split(''),
     R.map(c => (c === 'n' ? null : c === 't'))
@@ -83,6 +147,8 @@ const makeTestData = () => {
     sortedBoolean,
     ordinal,
     sortedOrdinal,
+    dates,
+    sortedDates,
     selection
   }
 }

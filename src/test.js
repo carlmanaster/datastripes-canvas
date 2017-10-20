@@ -111,6 +111,27 @@ const makeNumericSection = () => {
   root.appendChild(document.createElement('hr'))
 }
 
+const makeDateSection = () => {
+  const props = {
+    isSelected,
+    type: 'date',
+    width: 100
+  }
+  let ctx
+
+  const h1 = document.createElement('h1')
+  root.appendChild(h1)
+  h1.innerText = 'Date Charts'
+
+  ctx = makeTestCanvas(root, 'date').ctx
+  chart(props, testData.dates, ctx)
+
+  ctx = makeTestCanvas(root, 'sorted').ctx
+  chart(props, testData.sortedDates, ctx)
+
+  root.appendChild(document.createElement('hr'))
+}
+
 const makeBooleanSection = () => {
   const props = {
     isSelected,
@@ -282,6 +303,7 @@ const makeMultipleSection = () => {
 
 makeOverviewSection()
 makeMultipleSection()
+makeDateSection()
 makeNumericSection()
 makeOrdinalSection()
 makeBooleanSection()

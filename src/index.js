@@ -148,6 +148,17 @@ const toBool = s => {
   return null
 }
 
+const toDate = format => s => {
+  if (s === null || s === '') return null
+  const [a, b, c] = s.split('/')
+  const cc = parseInt(c)
+  const y = cc > 100 ? cc : cc > 17 ? 2000 + cc : 1900 + cc
+  switch (format) {
+    case 'MM/DD/YYYY': return new Date(y, a, b)
+    case 'DD/MM/YYYY': return new Date(y, a, b)
+  }
+}
+
 const toString = s => {
   if (s === null || s === '') return null
   return s

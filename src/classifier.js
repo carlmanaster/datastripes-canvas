@@ -10,8 +10,8 @@ const classify = columnData => {
   const isNumber = R.all(num, columnData)
   if (isNumber) return 'numeric'
 
-  // const isDate = R.all(columnData, function(a) {return a === null || _.isDate(a)})
-  // if (isDate) return 'date'
+  const format = detectDateFormat(columnData)
+  if (format !== undefined) return 'date'
 
   const bool = a => {
     if (a === null || a === '') return true

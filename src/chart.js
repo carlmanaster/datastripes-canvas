@@ -1,13 +1,15 @@
 const fns = {
   numeric: numericChart,
   boolean: booleanChart,
-  ordinal: ordinalChart
+  ordinal: ordinalChart,
+  date: dateChart
 }
 
 const overviewFns = {
   numeric: numericOverviewChart,
   ordinal: ordinalOverviewChart,
   boolean: booleanOverviewChart,
+  date: dateOverviewChart
 }
 
 const chart = (props, values, ctx) => fns[props.type](props, values, ctx)

@@ -30,6 +30,24 @@ const N = {
   },
 }
 
+const beginningOfTime = { getTime: () => -Infinity }
+const endOfTime = { getTime: () => Infinity }
+const getTime = d => d === null ? 0 : d.getTime()
+
+const D = {
+  max: A => {
+    const nn = U.nonNull(A)
+    const ms = R.map(d => d.getTime(), nn)
+    return N.max(ms)
+  },
+  min: A => {
+    const nn = U.nonNull(A)
+    const ms = R.map(d => d.getTime(), nn)
+    return N.min(ms)
+  },
+  dateOrder: (a, b) => getTime(a) - getTime(b),
+}
+
 const G = {
   line: (color, xStart, xEnd, y, ctx) => {
     const width = xEnd - xStart
