@@ -100,18 +100,7 @@ const makeTestData = () => {
     "18/07/15",
   ]
 
-  const toDate = format => s => {
-    if (s === null || s === '') return null
-    const [a, b, c] = s.split('/')
-    const cc = parseInt(c)
-    const y = cc > 100 ? cc : cc > 17 ? 1900 + cc : 2000 + cc
-    switch (format) {
-      case 'MM/DD/YYYY': return new Date(y, a, b)
-      case 'DD/MM/YYYY': return new Date(y, a, b)
-    }
-  }
-
-  const dates = R.map(s => (s === 'n' ? null : toDate('MM/DD/YYYY')(s)))(dateStrings)
+  const dates = R.map(s => (s === 'n' ? null : D.toDate('MM/DD/YYYY')(s)))(dateStrings)
   const sortedDates = R.sortWith([U.nullsUp, D.dateOrder], dates)
 
   const boolean = R.pipe(

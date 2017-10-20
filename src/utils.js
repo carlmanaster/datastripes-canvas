@@ -46,6 +46,16 @@ const D = {
     return N.min(ms)
   },
   dateOrder: (a, b) => getTime(a) - getTime(b),
+  toDate: format => s => {
+    if (s === null || s === '') return null
+    const [a, b, c] = s.split('/')
+    const cc = parseInt(c)
+    const y = cc > 100 ? cc : cc > 17 ? 1900 + cc : 2000 + cc
+    switch (format) {
+      case 'MM/DD/YYYY': return new Date(y, a, b)
+      case 'DD/MM/YYYY': return new Date(y, a, b)
+    }
+  }
 }
 
 const G = {
