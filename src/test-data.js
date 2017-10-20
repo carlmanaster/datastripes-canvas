@@ -59,7 +59,7 @@ const makeTestData = () => {
   const ordinal = R.pipe(R.split(''), R.map(c => (c === 'n' ? null : c)))(
     'dnenddabnbababnnccacbacbbabcbabcdeabcdeabcdebba'
   )
-  const sortedOrdinal = R.sortWith([U.nullsUp, U.compare], ordinal)
+  const sortedOrdinal = R.sortWith([U.nullsUp, (a, b) => a > b], ordinal)
 
   const selection = R.pipe(
     R.split(''),
