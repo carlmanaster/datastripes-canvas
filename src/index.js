@@ -4,23 +4,6 @@ const BASEBALL_URL = 'https://raw.githubusercontent.com/carlmanaster/datastripes
 
 const width = 50
 
-const numericProps = {
-  isSelected,
-  type: 'numeric',
-  width
-}
-const ordinalProps = {
-  isSelected,
-  type: 'ordinal',
-  width,
-  keys: R.split('', 'abcde')
-}
-const booleanProps = {
-  isSelected,
-  type: 'boolean',
-  width
-}
-
 const root = document.getElementById('root')
 const picker = document.getElementById('file-picker')
 const example = document.getElementById('example')
