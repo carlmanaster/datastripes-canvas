@@ -1,15 +1,16 @@
 const dateOverviewChart = (props, values, ctx) => {
   const HEIGHT = 14
   const BINS = 10
-  const COLOR = COLOR_BAR_NUMERIC_POSITIVE
+  const COLOR = COLOR_BAR_DATE
   const { width, isSelected } = props
 
-  const min = N.min(values)
-  const max = N.max(values)
+  const min = D.min(values)
+  const max = D.max(values)
 
   let bins = R.repeat(0, BINS)
-  R.forEach(n => {
-    if (n === null) return
+  R.forEach(d => {
+    if (d === null) return
+    const n = d.getTime()
     const i = Math.floor((BINS - 1) * (n - min) / (max - min))
     bins[i]++
   }, values)
@@ -21,8 +22,9 @@ const dateOverviewChart = (props, values, ctx) => {
 
   let selectedBins = R.repeat(0, BINS)
   for (var i = 0; i < selectedValues.length; i++) {
-    const n = selectedValues[i]
-    if (n === null) continue
+    const d = selectedValues[i]
+    if (d === null) continue
+    const n = d.getTime()
     const b = Math.floor((BINS - 1) * (n - min) / (max - min))
     selectedBins[b]++
   }
@@ -46,11 +48,4 @@ const dateOverviewChart = (props, values, ctx) => {
   }
 
   R.forEach(drawBin, selectedBins)
-
-  const std = N.standardDeviation(values)
-  const µ = N.mean(values)
-  const µSelected = N.mean(selectedValues)
-  const color = Math.abs(µ - µSelected) > 2 * std ? 'red' : 'blue'
-  const x = width * N.mean(selectedValues) / max
-  G.verticalLine(color, x, 0, HEIGHT, ctx)
 }

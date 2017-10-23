@@ -47,6 +47,16 @@ const makeOverviewSection = () => {
     type: 'boolean',
     width: 100,
   }
+  const datePropsAll = {
+    isSelected: () => true,
+    type: 'date',
+    width: 100,
+  }
+  const datePropsSome = {
+    isSelected,
+    type: 'date',
+    width: 100,
+  }
   let ctx
 
   const h1 = document.createElement('h1')
@@ -70,6 +80,12 @@ const makeOverviewSection = () => {
 
   ctx = makeTestCanvas(root, 'boolean-selected', 30).ctx
   overviewChart(booleanPropsSome, testData.boolean, ctx)
+
+  ctx = makeTestCanvas(root, 'date-all', 30).ctx
+  overviewChart(datePropsAll, testData.dates, ctx)
+
+  ctx = makeTestCanvas(root, 'date-some', 30).ctx
+  overviewChart(datePropsSome, testData.dates, ctx)
 
   root.appendChild(document.createElement('hr'))
 }
@@ -307,13 +323,3 @@ makeDateSection()
 makeNumericSection()
 makeOrdinalSection()
 makeBooleanSection()
-
-// const f = new File('baseball.txt')
-// const url = 'http://www4.stat.ncsu.edu/~boos/var.select/baseball.txt'
-// Papa.parse(url, {
-// 	download: true,
-//   header: true,
-// 	complete: function(results) {
-// 		console.log(results);
-// 	}
-// })
