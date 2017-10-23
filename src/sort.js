@@ -11,6 +11,7 @@ const trueUp = (a, b) => a[0] === true ? -1 : 1
 const numeric = (a, b) => a[0] - b[0]
 const strings = (a, b) => a[0] < b[0] ? -1 : 1
 const ordinal = keys => (a, b) => keys.indexOf(a[0]) - keys.indexOf(b[0])
+const dates = (a, b) => a[0].getTime() - b[0].getTime()
 
 const indexes = v => R.times(R.identity, v.length)
 const appendIndexes = v => R.zip(v, indexes(v))
@@ -27,6 +28,7 @@ const orderedTransformation = {
   boolean: transformation(trueUp),
   numeric: transformation(numeric),
   string: transformation(strings),
+  date: transformation(dates),
   ordinal: keys => transformation(ordinal(keys)),
 }
 
@@ -64,6 +66,11 @@ const ordinalTransformation = (data, index) => {
   return orderedTransformation.ordinal(keys)(values)
 }
 
+const dateTransformation = (data, index) => {
+  const { values } = data[index]
+  return orderedTransformation.date(values)
+}
+
 const getTransformation = (data, index) => {
   const d = data[index]
   const type = d.props.type
@@ -71,5 +78,6 @@ const getTransformation = (data, index) => {
     case 'numeric': return numericTransformation(data, index)
     case 'boolean': return booleanTransformation(data, index)
     case 'ordinal': return ordinalTransformation(data, index)
+    case 'date': return dateTransformation(data, index)
   }
 }
