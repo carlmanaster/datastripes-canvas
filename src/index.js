@@ -217,9 +217,9 @@ picker.addEventListener('click', e => {
   picker.value = ''
 })
 
-canvas.addEventListener('touchStart', startBrushing)
-canvas.addEventListener('touchEnd', stopBrushing)
-canvas.addEventListener('touchMove', keepBrushing)
+canvas.addEventListener('touchstart', startBrushing)
+canvas.addEventListener('touchend', stopBrushing)
+canvas.addEventListener('touchmove', keepBrushing)
 canvas.addEventListener('mousedown', startBrushing)
 canvas.addEventListener('mouseup', stopBrushing)
 canvas.addEventListener('mousemove', keepBrushing)
