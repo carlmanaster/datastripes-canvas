@@ -127,15 +127,29 @@ let brushing = false
 let yStart
 
 const startBrushing = e => {
+  e.preventDefault()
   yStart = e.layerY
   brushing = true
   refresh()
 }
 
-const stopBrushing = () => {
+const stopBrushing = e => {
+  e.preventDefault()
   if (!brushing) return
   brushing = false
   refresh()
+}
+
+const keepBrushing = e => {
+  e.preventDefault()
+  const inLabel = y < labelHeight
+  canvas.style.cursor = inLabel ? 'pointer' : 'crosshair'
+  if (brushing && !inLabel) {
+    selectBetween(yStart - dataStartY, e.layerY - dataStartY)
+    refresh()
+  }
+  x = e.layerX
+  y = e.layerY
 }
 
 const toBool = s => {
@@ -203,12 +217,12 @@ picker.addEventListener('click', e => {
   picker.value = ''
 })
 
-canvas.addEventListener('mousedown', e => {
-  e.preventDefault()
-  startBrushing(e)
-})
-
+canvas.addEventListener('touchStart', startBrushing)
+canvas.addEventListener('touchEnd', stopBrushing)
+canvas.addEventListener('touchMove', keepBrushing)
+canvas.addEventListener('mousedown', startBrushing)
 canvas.addEventListener('mouseup', stopBrushing)
+canvas.addEventListener('mousemove', keepBrushing)
 
 canvas.addEventListener('mouseover', e => (interval = setInterval(logHoveredValue, 1000)))
 
@@ -216,17 +230,6 @@ canvas.addEventListener('mouseleave', e => {
   clearInterval(interval)
   stopBrushing()
   label.innerHTML = ''
-})
-
-canvas.addEventListener('mousemove', e => {
-  const inLabel = y < labelHeight
-  canvas.style.cursor = inLabel ? 'pointer' : 'crosshair'
-  if (brushing && !inLabel) {
-    selectBetween(yStart - dataStartY, e.layerY - dataStartY)
-    refresh()
-  }
-  x = e.layerX
-  y = e.layerY
 })
 
 canvas.addEventListener('click', e => {
