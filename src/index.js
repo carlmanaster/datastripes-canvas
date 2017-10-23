@@ -126,15 +126,20 @@ const logHoveredValue = () => {
 let brushing = false
 let yStart
 
+const coords = e => {
+  if (e.layerY !== undefined) return {X: e.layerX, Y: e.layerY}
+  const touch = e.targetTouches[0]
+  return {X: touch.clientX, Y: touch.clientY}
+}
+
 const startBrushing = e => {
-  e.preventDefault()
-  yStart = e.layerY
+  const { Y } = coords(e)
+  yStart = Y
   brushing = true
   refresh()
 }
 
 const stopBrushing = e => {
-  e.preventDefault()
   if (!brushing) return
   brushing = false
   refresh()
@@ -143,13 +148,14 @@ const stopBrushing = e => {
 const keepBrushing = e => {
   e.preventDefault()
   const inLabel = y < labelHeight
+  const { X, Y } = coords(e)
   canvas.style.cursor = inLabel ? 'pointer' : 'crosshair'
   if (brushing && !inLabel) {
-    selectBetween(yStart - dataStartY, e.layerY - dataStartY)
+    selectBetween(yStart - dataStartY, Y - dataStartY)
     refresh()
   }
-  x = e.layerX
-  y = e.layerY
+  x = X
+  y = Y
 }
 
 const toBool = s => {
@@ -228,7 +234,7 @@ canvas.addEventListener('mouseover', e => (interval = setInterval(logHoveredValu
 
 canvas.addEventListener('mouseleave', e => {
   clearInterval(interval)
-  stopBrushing()
+  stopBrushing(e)
   label.innerHTML = ''
 })
 
